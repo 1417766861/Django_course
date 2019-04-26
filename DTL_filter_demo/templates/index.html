@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>my index</title>
+</head>
+<body>
+{#{{ 'hello'|add:'hahahah' }} output is hellohahahah#}
+{% with count=0  %}
+    <button id="btn" onclick="this.innerHTML = parseInt(this.innerHTML)+1">{{ count }}</button>
+{% endwith %}
+
+{#{{ list1|add:list2 }} ['book1', 'book2', 'book3', 'book4']#}
+
+{#{{ hello|cut:'wo' }}  value = value.replace(arg, '')#}
+
+{{ now|date:'Y/m/d H:i:s' }}
+{#M/D:英文显示#}
+
+{#格式字符	描述	示例#}
+{#Y	四位数字的年份	2018#}
+{#m	两位数字的月份	01-12#}
+{#n	月份，1-9前面没有0前缀	1-12#}
+{#d	两位数字的天	01-31#}
+{#j	天，但是1-9前面没有0前缀	1-31#}
+{#g	小时，12小时格式的，1-9前面没有0前缀	1-12#}
+{#h	小时，12小时格式的，1-9前面有0前缀	01-12#}
+{#G	小时，24小时格式的，1-9前面没有0前缀	1-23#}
+{#H	小时，24小时格式的，1-9前面有0前缀	01-23#}
+{#i	分钟，1-9前面有0前缀	00-59#}
+{#s	秒，1-9前面有0前缀	00-59#}
+{{ detailword|default:'hhahha' }}  detailword为空
+<br>
+{{ list1|first }}
+{{ list2|last }}
+
+{{ list1|join:'////' }}
+<p>{{ list1|length }}</p>
+
+{{ word|lower }}
+{{ word|upper }}
+
+<p>
+    在被给的列表/字符串/元组中随机的选择一个值
+    {{ randomlist|random }}
+</p>
+<p>
+    {{ content|safe }}
+</p>
+
+{{ text|slice:'2:'}}
+
+
+<p>
+    {{ content|striptags }}
+</p>
+
+<p>
+    {{ contenttext|truncatechars:20 }} Python从设计之初就已经是一门...
+</p>
+
+<p>
+{#    truncatechars_html#}
+{#类似于truncatechars，只不过是不会切割html标签#}
+</p>
+
+{% load my_filter %}
+<p>
+    <h3>
+    {{ 'this is a test content '|myfilter }}
+</h3>
+</p>
+</body>
+</html>

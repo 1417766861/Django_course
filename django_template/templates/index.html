@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>this is index</h1>
+
+
+<ul>
+{#    {% for user in users %}#}
+{#          序号：{{ forloop.counter }}#}
+{#            序号：{{ forloop.counter0 }}#}
+
+{#            反向#}
+{#            {{ forloop.revcounter }}#}
+{#            {{ forloop.revcounter0 }}#}
+
+{#        #forloop.first#}
+{#            {% if forloop.first %}#}
+{#                <li style="background: #d68077">#}
+{#                    {{ user.name }}  /  {{ user.age }}#}
+{#                </li>#}
+{##}
+{##}
+{#          forloop.last#}
+{#                {% elif forloop.last %}#}
+{#                <li style="background: blue">#}
+{#                    {{ user.name }}  /  {{ user.age }}#}
+{#                </li>#}
+{#                {% else %}#}
+{#                 <li>#}
+{#                    {{ user.name }}  /  {{ user.age }}#}
+{#                </li>#}
+{#            {% endif %}#}
+{#    {% endfor %}#}
+
+{#    {% for k,v in person.items %}#}
+{#        <li>#}
+{#            {{ k }} /  {{ v }}#}
+{#        </li>#}
+{#    {% endfor %}#}
+
+</ul>
+
+
+{#<ul>#}
+{#    {% for comment in comments %}#}
+{#        <li>#}
+{#            姓名：{{ comment.name }}#}
+{#            评论：{{ comment.content }}#}
+{#        </li>#}
+{#        {% empty %}#}
+{#        没有评论#}
+{#    {% endfor %}#}
+{##}
+{#</ul>#}
+
+{#{{ heros.0 }}#}
+{#{{ heros.0 }}#}
+{#{{ heros.0 }}#}
+{#{{ heros.0 }}#}
+
+
+{#简写，如果多个地方使用方便，注意一样要在with语句块中使用#}
+{#{% with heros.0 as luban %}#}
+{#    <li>{{ luban }}</li>#}
+{#    <li>{{ luban }}</li>#}
+{#    <li>{{ luban }}</li>#}
+{#{% endwith %}#}
+
+{#{% with zs=heros.0  %}#}
+{#<li>{{ zs }}</li>#}
+{#{% endwith %}#}
+
+
+<ul>
+    {% for book in books %}
+    <li>
+        <a href="{% url 'detail' book_id=book.id %}">{{ book.name }}</a>
+{#                                多个参数 空格隔开#}
+    </li>
+    {% endfor %}
+
+</ul>
+
+<a href="{% url 'login' %}?next= index">登陆</a>
+</body>
+</html>

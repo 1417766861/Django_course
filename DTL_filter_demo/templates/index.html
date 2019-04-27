@@ -18,6 +18,7 @@
 {#{{ hello|cut:'wo' }}  value = value.replace(arg, '')#}
 
 {{ now|date:'Y/m/d H:i:s' }}
+
 {#M/D:英文显示#}
 
 {#格式字符	描述	示例#}
@@ -32,6 +33,7 @@
 {#H	小时，24小时格式的，1-9前面有0前缀	01-23#}
 {#i	分钟，1-9前面有0前缀	00-59#}
 {#s	秒，1-9前面有0前缀	00-59#}
+
 {{ detailword|default:'hhahha' }}  detailword为空
 <br>
 {{ list1|first }}

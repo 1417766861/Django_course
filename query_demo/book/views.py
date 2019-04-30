@@ -119,6 +119,43 @@ class Index(View):
 
         return HttpResponse("success")
 
+from .models import Book,Author
+from django.db.models import Avg,Count,Sum
+from django.db import connection
+
+class Aggregate_View(View):
+    def get(self,request):
+        # 平均值 ：{'price__avg': 97.25}
+        avg = Book.objects.aggregate(Avg('price'))
+
+        # result = Book.objects.aggregate(my_avg=Avg('price'))
+        # print(result) 平均值 ：{'my_avg': 97.25}
+
+        # Count类中，还有另外一个参数叫做distinct，默认是等于False，如果是等于True，那么将去掉那些重复的值。比如要获取作者表中所有的不重复的邮箱总共有多少个，那么可以通过以下代码来实现：
+        # result = Author.objects.aggregate(count=Count('email', distinct=True))
+        # print(result) #{'count': 4}
+        # print(connection.queries)
+
+        # from django.db.models import Max, Min
+        # result = Author.objects.aggregate(Max('age'), Min('age')) #{'age__max': 46, 'age__min': 28}
+        # print(result)
+
+        # result = Book.objects.annotate(total=Sum("bookorder__price")).values("name", "total")
+        # print(result) #<QuerySet [{'name': '三国演义', 'total': 268.0}, {'name': '水浒传', 'total': 187.0}, {'name': '西游记', 'total': None}, {'name': '红楼梦', 'total': None}]>
+
+        return HttpResponse("success")
+
+"""
+aggregate和annotate的区别：
+aggregate：返回使用聚合函数后的字段和值。
+
+annotate：在原来模型字段的基础之上添加一个使用了聚合函数的字段，并且在使用聚合函数的时候，会使用当前这个模型的主键进行分组（group by）。
+比如以上Sum的例子，如果使用的是annotate，那么将在每条图书的数据上都添加一个字段叫做total，计算这本书的销售总额。
+而如果使用的是aggregate，那么将求所有图书的销售总额。
+
+aggregate返回单一字段
+"""
+
 
 
 

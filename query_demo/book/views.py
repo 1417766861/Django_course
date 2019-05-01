@@ -156,6 +156,67 @@ annotate：在原来模型字段的基础之上添加一个使用了聚合函数
 aggregate返回单一字段
 """
 
+# F 表达式 F表达式是用来优化ORM操作数据库的
+from .models import Employee
+from django.db.models import F
+
+"""
+比如我们要将公司所有员工的薪水都增加1000元
+employees = Employee.objects.all()
+for employee in employees:
+    employee.salary += 1000
+    employee.save()
+    
+我们的F表达式就可以优化这个流程，他可以不需要先把数据从数据库中提取出来，计算完成后再保存回去
+
+
+
+比如如果想要获取作者中，name和email相同的作者数据。如果不使用F表达式，那么需要使用以下代码来完成：
+    authors = Author.objects.all()
+    for author in authors:
+        if author.name == author.email:
+            print(author)
+如果使用F表达式，那么一行代码就可以搞定。示例代码如下：
+
+    from django.db.models import F
+    authors = Author.objects.filter(name=F("email"))
+    
+    
+"""
+class F_view(View):
+    def get(self,request):
+        Employee.objects.update(salary=F("salary") + 1000)
+        print(connection.queries)
+        # 'UPDATE `book_employee` SET `salary` = (`book_employee`.`salary` + 1000)
+        return HttpResponse("f ok")
+
+class Q_view(View):
+    def get(self,request):
+        pass
+
+"""
+Q表达式：
+如果想要实现所有价格高于100元，并且评分达到9.0以上评分的图书。那么可以通过以下代码来实现：
+
+books = Book.objects.filter(price__gte=100,rating__gte=9)
+以上这个案例是一个并集查询，可以简单的通过传递多个条件进去来实现。
+但是如果想要实现一些复杂的查询语句，比如要查询所有价格低于10元，或者是评分低于9分的图书。那就没有办法通过传递多个条件进去实现了。这时候就需要使用Q表达式来实现了。示例代码如下：
+
+from django.db.models import Q
+books = Book.objects.filter(Q(price__lte=10) | Q(rating__lte=9))
+以上是进行或运算，当然还可以进行其他的运算，比如有&和~（非）等。一些用Q表达式的例子如下：
+
+from django.db.models import Q
+# 获取id等于3的图书
+books = Book.objects.filter(Q(id=3))
+# 获取id等于3，或者名字中包含文字"记"的图书
+books = Book.objects.filter(Q(id=3)|Q(name__contains("记")))
+# 获取价格大于100，并且书名中包含"记"的图书
+books = Book.objects.filter(Q(price__gte=100)&Q(name__contains("记")))
+# 获取书名包含“记”，但是id不等于3的图书
+books = Book.objects.filter(Q(name__contains='记') & ~Q(id=3))
+"""
+
 
 
 

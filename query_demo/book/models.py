@@ -14,7 +14,6 @@ class Article(models.Model):
         return '<Article %s> %s'%(self.id,self.title)
 
 
-
 class Author(models.Model):
  """作者模型"""
  name = models.CharField(max_length=100)
@@ -50,6 +49,38 @@ class BookOrder(models.Model):
  price = models.FloatField()
  class Meta:
      db_table = 'book_order'
+
+
+class Employee(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    salary = models.FloatField()
+    email = models.EmailField()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

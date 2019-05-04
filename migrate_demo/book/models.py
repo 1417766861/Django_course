@@ -2,12 +2,12 @@ from django.db import models
 
 # Create your models here.
 
-class Book(object):
+class Book(models.Model):
     name = models.CharField(max_length=100)
     content = models.TextField()
 
-
-
+    price = models.FloatField(verbose_name='价格')
+    author = models.CharField(max_length=100)
 """
 makemigrations：将模型生成迁移脚本。模型所在的app，必须放在settings.py中的INSTALLED_APPS中。这个命令有以下几个常用选项：
 
@@ -22,4 +22,18 @@ app_label migrationname：将某个app下指定名字的migration文件映射到
 --fake-initial：将第一次生成的迁移文件版本号记录在数据库中。但并不会真正的执行迁移脚本。
 showmigrations：查看某个app下的迁移文件。如果后面没有app，那么将查看INSTALLED_APPS中所有的迁移文件。
 
-sqlmigrate：查看某个迁移文件在映射到数据库中的时候，转换的SQL语句。"""
+sqlmigrate：查看某个迁移文件在映射到数据库中的时候，转换的SQL语句。
+
+--fake：可以将指定的迁移脚本名字添加到数据库中。但是并不会把迁移脚本转换为SQL语句，修改数据库中的表。
+
+--fake-initial：将第一次生成的迁移文件版本号记录在数据库中。但并不会真正的执行迁移脚本。
+"""
+
+"""
+migrations中的迁移版本和数据库中的迁移版本对不上怎么办？
+找到哪里不一致，然后使用python manage.py --fake [版本名字]，将这个版本标记为已经映射。
+
+删除指定app下migrations和数据库表django_migrations中和这个app相关的版本号，然后将模型中的字段和数据库中的字段保持一致，
+再使用命令python manage.py makemigrations重新生成一个初始化的迁移脚本，
+之后再使用命令python manage.py makemigrations --fake-initial来将这个初始化的迁移脚本标记为已经映射。
+以后再修改就没有问题了。"""

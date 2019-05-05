@@ -13,7 +13,9 @@ def index(request):
 
     #tag = Tag(name='风景')
     #tag.save()
-    user = User.objects.first()
+    user = User.objects.first()#
+    User.objects.create()
+    # User.objects.create(xxx) #一步到位，添加保存
 
     article = Article(title='123')
     user.article_set.add(article,bulk=False)

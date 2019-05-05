@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{#<ul>#}
+{#    {% for article in articles %}#}
+{#    <li>{{ article }}</li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+
+<form action="{% url 'index' %}" method="post">
+    <input type="text" name="username">
+    <input type="submit" value="click me">
+</form>
+</body>
+</html>

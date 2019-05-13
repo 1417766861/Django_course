@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data">
+    <label for="title">
+        title:
+    </label>
+    <input type="text" id="title" name="title">
+    <label for="myfile">
+        文件
+    </label>
+    <input type="file" name="cover_url" id="myfile">
+
+    <input type="submit" value="提交">
+</form>
+<ul>
+    {% for error in errors %}
+        <li>
+        {{ error }}
+        </li>
+    {% endfor %}
+
+</ul>
+
+articles:
+<ul>
+    {% for aritcle in aritcles %}
+     <li>
+        {{ aritcle.title }}
+        <img src="/media/{{ aritcle.cover_url }}" alt="" style="width: 50px">
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

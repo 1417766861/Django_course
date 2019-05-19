@@ -50,6 +50,9 @@ MIDDLEWARE = [
     'middlewares.FrontMiddleware'
 ]
 
+
+from django.middleware.common import CommonMiddleware
+
 ROOT_URLCONF = 'middleware_demo.urls'
 
 TEMPLATES = [
@@ -120,3 +123,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+import re
+DISALLOWED_USER_AGENTS = [
+    re.compile(r'^\s$|^$'),
+    re.compile(r'.*Photomjs.*')
+]
+
+

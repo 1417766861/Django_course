@@ -41,17 +41,62 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middlewares.FrontMiddleware'
+   # 'middlewares.FrontMiddleware'
 ]
 
 
-from django.middleware.common import CommonMiddleware
+from django.middleware.security import SecurityMiddleware
+from django.middleware.csrf import CsrfViewMiddleware
+from django.middleware.clickjacking import XFrameOptionsMiddleware
+"""
+x-xss-protection
+和https处理
+"""
+"""
+django.middleware.common.CommonMiddleware：通用中间件。他的作用如下：
+限制settings.DISALLOWED_USER_AGENTS中指定的请求头来访问本网站。DISALLOWED_USER_AGENT是一个正则表达式的列表。示例代码如下：
+      import re
+      DISALLOWED_USER_AGENTS = [
+          re.compile(r'^\s$|^$'),
+          re.compile(r'.*PhantomJS.*')
+      ]
+如果开发者在定义url的时候，最后有一个斜杠。但是用户在访问url的时候没有提交这个斜杠，那么CommonMiddleware会自动的重定向到加了斜杠的url上去。
+django.middleware.gzip.GZipMiddleware：将响应数据进行压缩。如果内容长度少于200个长度，那么就不会压缩。
+django.contrib.messages.middleware.MessageMiddleware：消息处理相关的中间件。
+django.middleware.security.SecurityMiddleware：做了一些安全处理的中间件。比如设置XSS防御的请求头，比如做了http协议转https协议的工作等。
+django.contrib.sessions.middleware.SessionMiddleware：session中间件。会给request添加一个处理好的session对象。
+django.contrib.auth.middleware.AuthenticationMiddleware：会给request添加一个user对象的中间件。
+django.middleware.csrf.CsrfViewMiddleware：CSRF保护的中间件。
+django.middleware.clickjacking.XFrameOptionsMiddleware：做了clickjacking攻击的保护。clickjacking保护是攻击者在自己的病毒网站上，写一个诱惑用户点击的按钮，然后使用iframe的方式将受攻击的网站（比如银行网站）加载到自己的网站上去，并将其设置为透明的，用户就看不到，然后再把受攻击的网站（比如银行网站）的转账按钮定位到病毒网站的按钮上，这样用户在点击病毒网站上按钮的时候，实际上点击的是受攻击的网站（比如银行网站）上的按钮，从而实现了在不知不觉中给攻击者转账的功能。
+缓存中间件：用来缓存一些页面的。
+django.middleware.cache.UpdateCacheMiddleware。
+django.middleware.cache.FetchFromCacheMiddleware。
+"""
+
+"""
+SecurityMiddleware：应该放到最前面。因为这个中间件并不需要依赖任何其他的中间件。如果你的网站同时支持http协议和https协议，并且你想让用户在使用http协议的时候重定向到https协议，那么就没有必要让他执行下面一大串中间件再重定向，这样效率更高。
+UpdateCacheMiddleware：应该在SessionMiddleware, GZipMiddleware, LocaleMiddleware之前。
+GZipMiddleware。
+ConditionalGetMiddleware。
+SessionMiddleware。
+LocaleMiddleware。
+CommonMiddleware。
+CsrfViewMiddleware。
+AuthenticationMiddleware。
+MessageMiddleware。
+FetchFromCacheMiddleware。
+FlatpageFallbackMiddleware。
+RedirectFallbackMiddleware。
+"""
+
+from django.middleware.gzip import GZipMiddleware
 
 ROOT_URLCONF = 'middleware_demo.urls'
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          <li><a href="{% url 'blog' %}">blog</a></li>
+          <li><a href="{% url 'video' %}">video</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+          {% if front_user %}
+               <li><a href="{% url 'login' %}">{{ front_user.username }}</a></li>
+               <li><a href="{% url 'logout' %}">退出</a></li>
+              {% else %}
+                      <li><a href="{% url 'login' %}">登陆</a></li>
+                      <li><a href="{% url 'signup' %}">注册</a></li>
+          {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+{#{{ sql_queries }}#}
+{% block body %}
+
+{% endblock %}
+</body>
+
+</html>

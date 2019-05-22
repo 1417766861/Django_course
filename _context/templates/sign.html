@@ -1,0 +1,21 @@
+{% extends 'head_.html' %}
+
+{% block body %}
+    <form action="" method="post">
+    {% csrf_token %}
+    <table>
+            <tr>
+                <td>用户名<input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td>密码<input type="text" name="password"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="立即注册">
+                </td>
+            </tr>
+        </table>
+    </form>
+    {{ errors }}
+{% endblock %}

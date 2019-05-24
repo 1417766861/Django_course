@@ -1,6 +1,7 @@
 from django.db import models
 # from django.contrib.auth.models import User,AbstractUser
-from django.contrib.auth.models import UserManager,AbstractUser
+from django.contrib.auth.models import UserManager,AbstractUser,AbstractBaseUser,PermissionsMixin
+from django.contrib.auth import get_user_model
 from django.contrib import auth
 
 # Create your models here.
@@ -53,10 +54,31 @@ class User_Manager(UserManager):
 
 
 
-class User(AbstractUser):
+# class User(AbstractUser):
+#     phone = models.CharField(max_length=100,unique=True)
+#     school = models.CharField(max_length=100)
+#
+#     USERNAME_FIELD = 'phone'
+#
+#     objects = User_Manager()
+
+class User(AbstractBaseUser,PermissionsMixin):
+    username = models.CharField(max_length=20)
     phone = models.CharField(max_length=100,unique=True)
     school = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'phone'
-
     objects = User_Manager()
+
+    def get_full_name(self):
+        return self.username
+
+    def get_short_name(self):
+        """Return the short name for the user."""
+        return self.username
+
+
+class ArticleModel(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)

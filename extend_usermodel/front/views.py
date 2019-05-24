@@ -45,7 +45,7 @@ def OneVIew(request):
 def inherit_view(request):
     # User.objects.create_user(phone='13262059020',username='donghao',password='111111')
     # User.objects.create_superuser(phone='13262059002',username='donghao1',password='111111')
-    user = authenticate(request,username='13262059003',password='111111')
+    user = authenticate(request,username='13262059020',password='111111')
     if user:
         print(user.username)
     else:

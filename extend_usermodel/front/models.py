@@ -1,31 +1,62 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User,AbstractUser
+from django.contrib.auth.models import UserManager,AbstractUser
+from django.contrib import auth
 
 # Create your models here.
-class Person(User):
-    class Meta:
-        proxy = True
+# class Person(User):
+#     class Meta:
+#         proxy = True
+#
+#     @classmethod
+#     def get_blacklist(cls):
+#         return cls.objects.filter(is_active=False).all()
+#
+#
+#
+# class UserExtension(models.Model):
+#     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='extension')
+#     phone = models.CharField(max_length=100)
+#     school = models.CharField(max_length=100,null=True,blank=True)
+#
+#
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+#
+# @receiver(post_save,sender=User)
+# def handle_user_extension(sender,instance,created,**kwargs):
+#     if created:
+#         UserExtension.objects.create(user=instance)
+#         print('create_success')
+#     else:
+#         instance.extension.save()
+#         print('extension save')
 
-    @classmethod
-    def get_blacklist(cls):
-        return cls.objects.filter(is_active=False).all()
+class User_Manager(UserManager):
+    def _create_user(self, phone,username, password, **extra_fields):
+        if not phone:
+            raise ValueError("必须要传递手机号码")
+        if not password:
+            raise ValueError("必须要传递密码")
+        user = self.model(username=username,phone=phone,**extra_fields)
+        user.set_password(password)
+        user.save()
+
+
+    def create_user(self,phone,username,password, **extra_fields):
+        extra_fields['is_superuser'] = False
+        return self._create_user(phone,username,password,**extra_fields)
+
+    def create_superuser(self,phone,username,password, **extra_fields):
+        extra_fields['is_superuser'] = True
+        return self._create_user(phone,username,password,**extra_fields)
 
 
 
-class UserExtension(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='extension')
-    phone = models.CharField(max_length=100)
-    school = models.CharField(max_length=100,null=True,blank=True)
+class User(AbstractUser):
+    phone = models.CharField(max_length=100,unique=True)
+    school = models.CharField(max_length=100)
 
+    USERNAME_FIELD = 'phone'
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-@receiver(post_save,sender=User)
-def handle_user_extension(sender,instance,created,**kwargs):
-    if created:
-        UserExtension.objects.create(user=instance)
-        print('create_success')
-    else:
-        instance.extension.save()
-        print('extension save')
+    objects = User_Manager()
